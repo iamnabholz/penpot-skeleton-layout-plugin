@@ -1,6 +1,10 @@
 {
-  "name": "Penpot starter plugin",
+  "name": "Skeleton Layout",
   "code": "plugin.js",
-  "description": "This is a starter plugin for Penpot",
-  "permissions": ["content:read", "content:write"]
+  "icon": "content/icon.png",
+  "description": "Convert your Penpot designs into a low-fidelity concepts",
+  "permissions": [
+    "content:read",
+    "content:write"
+  ]
 }
