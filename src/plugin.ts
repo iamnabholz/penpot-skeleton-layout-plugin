@@ -2,12 +2,14 @@ import { Group, Board, Shape } from "@penpot/plugin-types";
 
 penpot.ui.open("Skeleton Layout", `?theme=${penpot.theme}`, {
   width: 240,
-  height: 260,
+  height: 305,
 });
 
-const createSkeleton = (element: Shape, parent: Board | Group) => {
+let keepText: Boolean = false;
+
+const createSkeleton = (element: Shape, toRemove: Boolean = true) => {
   const skeleton = penpot.createRectangle();
-  skeleton.borderRadius = 12;
+  skeleton.borderRadius = element.borderRadius || 12;
   skeleton.x = element.x;
   skeleton.y = element.y;
   skeleton.resize(element.width, element.height);
@@ -15,35 +17,49 @@ const createSkeleton = (element: Shape, parent: Board | Group) => {
 
   skeleton.name = element.name;
 
-  element.remove();
+  if (toRemove) {
+    element.remove();
+  }
 
-  parent.insertChild(parent.children.length, skeleton);
-}
+  return skeleton;
+};
 
 const iterateChildren = (element: Group | Board) => {
   const children = [...element.children];
 
   children.forEach((child) => {
     if (penpot.utils.types.isText(child)) {
-      child.growType = "auto-width";
-      createSkeleton(child, element);
-    } else if (penpot.utils.types.isRectangle(child) || penpot.utils.types.isEllipse(child) || penpot.utils.types.isPath(child)) {
+      //child.growType = "auto-width";
+      if (keepText) {
+        child.fills = [{ fillOpacity: 1, fillColor: "#aeabab" }];
+      } else {
+        const skeletonChild = createSkeleton(child);
+        element.insertChild(children.length, skeletonChild);
+      }
+    } else if (
+      penpot.utils.types.isRectangle(child) ||
+      penpot.utils.types.isEllipse(child) ||
+      penpot.utils.types.isPath(child)
+    ) {
       child.fills = [{ fillOpacity: 0.6, fillColor: "#aeabab" }];
-    } else if (penpot.utils.types.isGroup(child) /*|| penpot.utils.types.isBoard(child)*/) {
+    } else if (penpot.utils.types.isGroup(child)) {
       iterateChildren(child);
     } else if (penpot.utils.types.isBoard(child)) {
-      const grouped = penpot.group(child.children);
-      if (grouped) {
-        element.insertChild(element.children.length, grouped);
-        iterateChildren(grouped);
+      const skeletonChild = createSkeleton(child, false);
+      const group = penpot.group([...child.children, skeletonChild]);
+
+      if (group) {
+        element.insertChild(children.length, group);
+        iterateChildren(group);
         child.remove();
       }
     }
   });
-}
+};
 
-penpot.ui.onMessage<string>((message) => {
-  if (message === "create-text") {
+penpot.ui.onMessage<any>((message) => {
+  if (message.msg === "transform") {
+    keepText = message.value;
     const selection = penpot.selection;
 
     selection.forEach((board) => {

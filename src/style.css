@@ -99,4 +99,9 @@ label {
     .choice-selector p:hover {
         color: white;
     }
+
+    .preview-image,
+    .preview-line {
+        background-color: #646464;
+    }
 }

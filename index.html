@@ -1,31 +1,46 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Penpot Skeleton Layout Plugin</title>
+        <link rel="icon" type="image/png" href="content/icon.png" />
+    </head>
 
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Penpot Skeleton Layout Plugin</title>
-  <link rel="icon" type="image/png" href="content/icon.png" />
-</head>
+    <body>
+        <main>
+            <div class="preview">
+                <div class="preview-image"></div>
+                <div class="preview-line"></div>
+                <div class="preview-line"></div>
+                <div class="preview-line"></div>
+            </div>
 
-<body>
-  <main>
+            <div class="checkbox-container">
+                <input
+                    class="checkbox-input"
+                    type="checkbox"
+                    id="keep-text-checkbox"
+                    value="checkbox_second"
+                    data-handler="keep-text"
+                />
+                <label for="keep-text-checkbox">Keep written text</label>
+            </div>
 
-    <div class="preview">
-      <div class="preview-image"></div>
-      <div class="preview-line"></div>
-      <div class="preview-line"></div>
-      <div class="preview-line"></div>
-    </div>
+            <button
+                type="button"
+                data-appearance="primary"
+                data-handler="transform"
+            >
+                Transform to Skeleton
+            </button>
 
-    <button type="button" data-appearance="primary" data-handler="create-text">
-      Transform to Skeleton
-    </button>
+            <label>
+                Select the board(s) you want to transform and click the button
+                to turn it into a low-fidelity design.
+            </label>
+        </main>
 
-    <label>Select a board and click the button to transform it into a low-fidelity concept.</label>
-  </main>
-
-  <script type="module" src="/src/main.ts"></script>
-</body>
-
+        <script type="module" src="/src/main.ts"></script>
+    </body>
 </html>
