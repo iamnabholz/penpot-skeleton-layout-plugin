@@ -2,7 +2,7 @@ import { Group, Board, Shape } from "@penpot/plugin-types";
 
 penpot.ui.open("Skeleton Layout", `?theme=${penpot.theme}`, {
   width: 260,
-  height: 340,
+  height: 320,
 });
 
 let keepText: Boolean = false;
