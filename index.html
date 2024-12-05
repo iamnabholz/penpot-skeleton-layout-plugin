@@ -1,48 +1,45 @@
 <!doctype html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Penpot Skeleton Layout Plugin</title>
-        <link rel="icon" type="image/png" href="content/icon.png" />
-    </head>
 
-    <body>
-        <main>
-            <div class="preview">
-                <div class="preview-image"></div>
-                <div class="preview-line">This is sample text</div>
-                <div class="preview-line">With keep text enabled.</div>
-                <div class="preview-line">Bottom text</div>
-            </div>
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Penpot Skeleton Layout Plugin</title>
+    <link rel="icon" type="image/png" href="content/icon.png" />
+</head>
 
-            <div class="checkbox-container">
-                <input
-                    class="checkbox-input"
-                    type="checkbox"
-                    id="keep-text-checkbox"
-                    value="checkbox_second"
-                    data-handler="keep-text"
-                />
-                <label for="keep-text-checkbox">
-                    Keep text (change color only)
-                </label>
-            </div>
+<body>
+    <main>
+        <div class="preview">
+            <div class="preview-image"></div>
+            <div class="preview-line">This is sample text</div>
+            <div class="preview-line">with keep text enabled.</div>
+            <div class="preview-line">Bottom text.</div>
+        </div>
 
-            <button
-                type="button"
-                data-appearance="primary"
-                data-handler="transform"
-            >
-                Generate Skeleton View
-            </button>
-
-            <label>
-                Generate a skeleton, low-fidelity view from the selected
-                board(s).
+        <div class="checkbox-container">
+            <input class="checkbox-input" type="checkbox" id="keep-text-checkbox" value="checkbox_second"
+                data-handler="keep-text" />
+            <label for="keep-text-checkbox">
+                Keep text and only change color
             </label>
-        </main>
+        </div>
 
-        <script type="module" src="/src/main.ts"></script>
-    </body>
+        <button type="button" data-appearance="primary" data-handler="transform">
+            Generate Skeleton View
+        </button>
+
+        <label>
+            Generate a skeleton, low-fidelity view from the selected
+            board(s).
+        </label>
+
+        <label>
+            Plugin still a work in progress.
+        </label>
+    </main>
+
+    <script type="module" src="/src/main.ts"></script>
+</body>
+
 </html>

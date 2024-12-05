@@ -2,7 +2,7 @@ import { Group, Board, Shape } from "@penpot/plugin-types";
 
 penpot.ui.open("Skeleton Layout", `?theme=${penpot.theme}`, {
   width: 260,
-  height: 330,
+  height: 340,
 });
 
 let keepText: Boolean = false;
@@ -53,13 +53,25 @@ const iterateChildren = (element: Group | Board) => {
     } else if (penpot.utils.types.isGroup(child)) {
       iterateChildren(child);
     } else if (penpot.utils.types.isBoard(child)) {
-      const skeletonChild = createSkeleton(child, false);
-      const group = penpot.group([skeletonChild, ...child.children]);
+      const hasFills = child.fills.length > 0 ? true : false;
 
-      if (group) {
-        element.insertChild(children.length, group);
-        iterateChildren(group);
-        child.remove();
+      if (hasFills) {
+        const skeletonChild = createSkeleton(child, false);
+        const group = penpot.group([skeletonChild, ...child.children]);
+
+        if (group) {
+          element.insertChild(children.length, group);
+          iterateChildren(group);
+          child.remove();
+        }
+      } else {
+        const group = penpot.group([...child.children]);
+
+        if (group) {
+          element.insertChild(children.length, group);
+          iterateChildren(group);
+          child.remove();
+        }
       }
     }
   });
