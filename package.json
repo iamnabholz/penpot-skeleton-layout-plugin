@@ -1,5 +1,5 @@
 {
-  "name": "penpot-plugin-starter-template",
+  "name": "penpot-skeleton-layout-plugin",
   "private": true,
   "version": "1.0.0",
   "type": "module",
