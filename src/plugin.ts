@@ -1,19 +1,27 @@
 import { Group, Board, Shape } from "@penpot/plugin-types";
 
 penpot.ui.open("Skeleton Layout", `?theme=${penpot.theme}`, {
-  width: 240,
-  height: 305,
+  width: 260,
+  height: 330,
 });
 
 let keepText: Boolean = false;
 
+const skeletonFill = [{ fillOpacity: 0.55, fillColor: "#cfcfcf" }];
+
 const createSkeleton = (element: Shape, toRemove: Boolean = true) => {
   const skeleton = penpot.createRectangle();
-  skeleton.borderRadius = element.borderRadius || 12;
+
+  let borderRadius = element.borderRadius !== null ? element.borderRadius : 12;
+  if (penpot.utils.types.isBoard(element) && element.borderRadius === null) {
+    borderRadius = 0;
+  }
+
+  skeleton.borderRadius = borderRadius;
   skeleton.x = element.x;
   skeleton.y = element.y;
   skeleton.resize(element.width, element.height);
-  skeleton.fills = [{ fillOpacity: 0.6, fillColor: "#aeabab" }];
+  skeleton.fills = skeletonFill;
 
   skeleton.name = element.name;
 
@@ -31,7 +39,7 @@ const iterateChildren = (element: Group | Board) => {
     if (penpot.utils.types.isText(child)) {
       //child.growType = "auto-width";
       if (keepText) {
-        child.fills = [{ fillOpacity: 1, fillColor: "#aeabab" }];
+        child.fills = [{ fillOpacity: 1, fillColor: "#cfcfcf" }];
       } else {
         const skeletonChild = createSkeleton(child);
         element.insertChild(children.length, skeletonChild);
@@ -41,12 +49,12 @@ const iterateChildren = (element: Group | Board) => {
       penpot.utils.types.isEllipse(child) ||
       penpot.utils.types.isPath(child)
     ) {
-      child.fills = [{ fillOpacity: 0.6, fillColor: "#aeabab" }];
+      child.fills = skeletonFill;
     } else if (penpot.utils.types.isGroup(child)) {
       iterateChildren(child);
     } else if (penpot.utils.types.isBoard(child)) {
       const skeletonChild = createSkeleton(child, false);
-      const group = penpot.group([...child.children, skeletonChild]);
+      const group = penpot.group([skeletonChild, ...child.children]);
 
       if (group) {
         element.insertChild(children.length, group);
@@ -62,9 +70,13 @@ penpot.ui.onMessage<any>((message) => {
     keepText = message.value;
     const selection = penpot.selection;
 
-    selection.forEach((board) => {
-      if (penpot.utils.types.isBoard(board)) {
-        iterateChildren(board);
+    selection.forEach((element) => {
+      if (
+        penpot.utils.types.isBoard(element) ||
+        penpot.utils.types.isGroup(element)
+      ) {
+        // TODO: if board is not a root element (doesn't have a parent) it means we are dealing with a flex or grid layout, we should handle background accorddingly
+        iterateChildren(element);
       }
     });
   }

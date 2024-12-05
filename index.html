@@ -11,9 +11,9 @@
         <main>
             <div class="preview">
                 <div class="preview-image"></div>
-                <div class="preview-line"></div>
-                <div class="preview-line"></div>
-                <div class="preview-line"></div>
+                <div class="preview-line">This is sample text</div>
+                <div class="preview-line">With keep text enabled.</div>
+                <div class="preview-line">Bottom text</div>
             </div>
 
             <div class="checkbox-container">
@@ -24,7 +24,9 @@
                     value="checkbox_second"
                     data-handler="keep-text"
                 />
-                <label for="keep-text-checkbox">Keep written text</label>
+                <label for="keep-text-checkbox">
+                    Keep text (change color only)
+                </label>
             </div>
 
             <button
@@ -32,12 +34,12 @@
                 data-appearance="primary"
                 data-handler="transform"
             >
-                Transform to Skeleton
+                Generate Skeleton View
             </button>
 
             <label>
-                Select the board(s) you want to transform and click the button
-                to turn it into a low-fidelity design.
+                Generate a skeleton, low-fidelity view from the selected
+                board(s).
             </label>
         </main>
 
